@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const urel = mongodb://127.0.0.1:27017/messages
+const url = mongodb:127.0.0.1:27017/messages
 mongoose.connect(url, {useNewUrlParser: true});
 
 const db = mongoose.connection

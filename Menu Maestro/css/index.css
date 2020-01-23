@@ -1,5 +1,6 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
-body{
+body {
   background-color: #D9D8D8;
 }
 
@@ -7,19 +8,21 @@ h1 {
   font-family: sans-serif;
   color: white;
   background-color: grey;
-
-  padding: 20px;
+  margin: 5px;
+  padding: 10px;
 }
 
-div{
+div {
+
+  padding: 20px;
   font-size: 20px;
   float: left;
-  padding: 5px, 10px, 5px, 10px;
+
 }
 
 #para2 {
   font-size: 20px;
-  float: left;
+
 
 }
 
@@ -29,6 +32,8 @@ ul {
   padding: 0;
   overflow: hidden;
   background-color: #333;
+  font-family: Helvetica;
+  font-size: 16px;
 }
 
 li {

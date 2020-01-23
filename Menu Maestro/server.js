@@ -7,14 +7,26 @@ const express = require('express')
 app.use(express.static('css'))
 app.use(express.static('images'))
 
-const url = 'mongodb://127.0.0.1:27017/messages'
+const url = 'mongodb://127.0.0.1:27017/applications'
+const url1 = 'mongodb://127.0.0.1:27017/chat'
+
 var bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 mongoose.connect(url, {useNewUrlParser: true});
 
+
+var bodyParser = require('body-parser');
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+mongoose.connect(url1, {useNewUrlParser: true});
+
 const db = mongoose.connection
 db.once('open',_=> {console.log('Database Connected :', url)})
+
+db.on('error', err => {console.error('connection error :',err)})
+
+db.once('open',_=> {console.log('Database Connected :', url1)})
 
 db.on('error', err => {console.error('connection error :',err)})
 
@@ -25,15 +37,21 @@ var formSchema = new mongoose.Schema({
   emailAddress: String
 });
 
+var messageSchema = new mongoose.Schema({
+  message : String
+});
+
+
 var User = mongoose.model("User", formSchema);
+var Message = mongoose.model("message", messageSchema);
 
 //db.users.find()pretty()
 
-app.post("/addname", (req, res) => {
-  var messages = new User(req.body);
-  messages.save()
+app.post("/Submit", (req, res) => {
+  var applications = new User(req.body);
+  applications.save()
     .then(item => {
-      res.send("item saved to database");
+      res.sendFile(__dirname + '/html/formSubmit.html');
     })
     .catch(err => {
       res.status(400).send("unable to save to database");
@@ -53,6 +71,9 @@ app.get('/chat', function(request, response) {
 app.get('/join', function(request, response) {
   response.sendFile(__dirname + '/html/join.html');
 });
+app.get('formSubmit', function(request, response) {
+  response.sendFile(__dirname + '/html/formSubmit.html');
+});
 
 
 // From the Socket IO tutorial however adding for user disconnect
@@ -70,8 +91,15 @@ io.on('connection', function(socket){
 
 io.on('connection', function(socket){
   socket.on('chat message', function(msg){
+
+var newMessage = new Message ({messageBody : msg});
+newMessage.save(function(err)
+{
+  console.log("message is saved");
+});
     io.emit('chat message', msg);
-  });
+});
+
 });
 
 http.listen(9000, function(){

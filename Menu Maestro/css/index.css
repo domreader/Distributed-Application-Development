@@ -10,6 +10,7 @@ h1 {
   background-color: grey;
   margin: 5px;
   padding: 10px;
+  text-align: center;
 }
 
 div {
@@ -17,12 +18,14 @@ div {
   padding: 20px;
   font-size: 20px;
   float: left;
+  text-align: center;
 
 }
 
-#para2 {
+#photoDiv {
   font-size: 20px;
-
+  margin: 5px;
+  padding: 10px;
 
 }
 

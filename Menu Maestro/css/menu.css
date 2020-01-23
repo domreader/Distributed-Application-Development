@@ -10,6 +10,8 @@ color: white;
 background-color: grey;
 margin: 5px;
 padding: 10px;
+text-align: center;
+
 }
 
 div {
@@ -20,10 +22,7 @@ padding: 10px;
 
 clear: both;
 }
- #GBPara
- {
-
- }
+ 
 #burger1
 {
   display: block;
@@ -31,10 +30,6 @@ clear: both;
  margin-right: auto;
 }
 
-#para2 {
-font-size: 20px;
-
-}
 
 ul {
 list-style-type: none;

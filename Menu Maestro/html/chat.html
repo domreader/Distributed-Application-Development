@@ -16,10 +16,6 @@
     <li><a href="/menu">Menu</a></li>
     <li><a href="/chat">Chat With Us</a></li>
     <li><a href="/join">Join Us</a></li>
-
-
-
-
   </ul>
 
   <ul id="messages"></ul>
@@ -29,7 +25,7 @@
 
   <script src="/socket.io/socket.io.js"></script>
   <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
-  <script>
+  <script> //This function is based from the socket IO example which is linked in the report 
     $(function () {
       var socket = io();
       $('form').submit(function(e){

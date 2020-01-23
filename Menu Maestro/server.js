@@ -1,44 +1,46 @@
-var app = require('express')();
-var http = require('http').createServer(app);
-var io = require('socket.io')(http);
-const mongoose = require('mongoose')
-const express = require('express')
+var app = require('express')(); //Used for loading in the html documents (static express features)
+var http = require('http').createServer(app); //Creating Node Server
+var io = require('socket.io')(http); //From socket IO tutorial - loads socket io
+const mongoose = require('mongoose') // Using mongoose for MongoDB
+const express = require('express') //Setting express
 // connecting to database
-app.use(express.static('css'))
-app.use(express.static('images'))
+app.use(express.static('css')) //Making CSS files accessible throughout application
+app.use(express.static('images')) //Making Images files accessible throughout application
 
-const url = 'mongodb://127.0.0.1:27017/messages'
-var bodyParser = require('body-parser');
+const url = 'mongodb://127.0.0.1:27017/applications' //Url for database
+
+var bodyParser = require('body-parser'); //Parser to save the data entered in the form, from tutorial by Jennifer Bland
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 mongoose.connect(url, {useNewUrlParser: true});
 
-const db = mongoose.connection
+const db = mongoose.connection //connecting then if success printing in console if not showing if fails
 db.once('open',_=> {console.log('Database Connected :', url)})
 
 db.on('error', err => {console.error('connection error :',err)})
 
-var formSchema = new mongoose.Schema({
+var formSchema = new mongoose.Schema({ //creating schema to save data from
   firstName: String,
   lastName: String,
   companyName: String,
   emailAddress: String
 });
 
-var User = mongoose.model("User", formSchema);
+var User = mongoose.model("User", formSchema); // Creating model
 
-//db.users.find()pretty()
+//db.users.find()pretty() - The command to find the data in the database when in mongo console
 
-app.post("/addname", (req, res) => {
-  var messages = new User(req.body);
-  messages.save()
+app.post("/Submit", (req, res) => { // On submit saving information then redirecting to a thank you page
+  var applications = new User(req.body);
+  applications.save()
     .then(item => {
-      res.send("item saved to database");
+      res.sendFile(__dirname + "/html/formSubmit.html");
     })
     .catch(err => {
       res.status(400).send("unable to save to database");
     });
 });
+
 // sending the html files to the server to display
 
 app.get('/index', function(req, res){
